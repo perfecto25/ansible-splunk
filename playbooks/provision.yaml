@@ -1,0 +1,40 @@
+---
+# VAGRANT PROVISIONER
+- name: provision
+  hosts: all
+  become_user: root
+  become: true
+  vars:
+    users:
+      - mrx
+
+  gather_facts: yes
+
+  tasks:
+    - name: install pkgs
+      yum: name="vim" state=installed
+
+    - name: wheel group present
+      group: name=wheel state=present
+    
+    - name: allow wheel sudoers no passwd
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+    - name: create users, add to wheel group for sudo access
+      user: name="{{ item }}" state=present groups=wheel group=users append=yes createhome=yes
+      with_items: "{{ users }}"
+
+    - name: add public keys
+      authorized_key:
+        user: "{{ item }}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
+        manage_dir: yes
+      with_items: "{{ users }}"
+
+
+
