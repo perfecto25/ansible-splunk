@@ -1,0 +1,7 @@
+# INSTALLS SPLUNK INDEXER
+
+- hosts: indexer
+  become: true
+  become_user: root
+  roles:
+    - indexer

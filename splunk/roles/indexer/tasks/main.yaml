@@ -1,0 +1,28 @@
+---
+# - name: copy over the splunk installation deb
+#   copy: src={{ splunk_filename }} dest=/tmp
+#   when: ansible_distribution == "Debian" 
+
+
+# - name: install splunk with dpkg
+#   command: dpkg -i /tmp/{{ splunk_filename }} creates=/opt/splunk
+#   when: ansible_distribution == "Debian"  
+
+- name: copy rpm to target
+  copy:
+    src: "{{ playbook_dir }}/binaries/{{ rpm_name }}"
+    dest: /tmp
+  when: ansible_distribution == "CentOS" 
+  tags: copy
+
+
+- name: install splunk with rpm
+  command: rpm -i /tmp/{{ rpm_name }} creates=/opt/splunk
+  when: ansible_distribution == "CentOS"
+  tags: install 
+
+- name: splunk license
+  command: /opt/splunk/bin/splunk start --accept-license creates=/opt/splunk/etc/users/splunk-system-user
+
+- name: setup to start at boot
+  command: /opt/splunk/bin/splunk enable boot-start

@@ -1,0 +1,4 @@
+version: "6.6.3"
+rpm_name: "splunk-6.6.3-e21ee54bc796-linux-2.6-x86_64.rpm"
+download_url: >
+  "https://www.splunk.com/page/download_track?file={{ version }}/linux/{{ rpm_name }}&platform=Linux&architecture=x86_64&version={{ version }}&product=splunk&typed=release&name=linux_installer"

@@ -1,2 +1,5 @@
 .vagrant
 .vscode
+*.tgz
+splunk-complex
+splunk/binaries

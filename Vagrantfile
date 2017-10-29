@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
       end # end provider
 
       cfg.vm.provision "ansible" do |ansible|
-        ansible.playbook = "playbooks/provision.yaml"
+        ansible.playbook = "provision.yaml"
       end
     end # end config
   end # end cluster

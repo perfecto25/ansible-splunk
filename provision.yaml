@@ -1,5 +1,5 @@
 ---
-# VAGRANT PROVISIONER
+# VAGRANT PROVISIONER PLAYBOOK
 - name: provision
   hosts: all
   become_user: root
@@ -35,6 +35,9 @@
         key: "{{ lookup('file', '/home/{{ item }}/.ssh/id_rsa.pub') }}"
         manage_dir: yes
       with_items: "{{ users }}"
+    
+    - name: turn off selinux
+      selinux: state=disabled
 
 
 
